@@ -1,3 +1,11 @@
 from django.db import models
 
+
 # Create your models here.
+
+class Book(models.Model):
+    name = models.CharField(max_length=256)
+    authors = models.TextField()
+
+    class Meta:
+        app_label = 'example_app'
