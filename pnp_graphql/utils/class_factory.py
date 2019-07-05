@@ -1,20 +1,21 @@
-from graphql import GraphQLObjectType
-
 class BaseClass(object):
+    """
+    This is just a prototype of class.
+    """
     def __init__(self, classtype):
         self._type = classtype
 
-def ClassFactory(name, BaseClass=BaseClass):
-    def __init__(self, **kwargs):
-        self._kwargs = kwargs
-        BaseClass.__init__(self, name[:-len("Class")])
-    new_class = type(name, (BaseClass,),{"__init__": __init__})
-    return new_class
 
+def class_factory(name, base_classes=(BaseClass,), **kwargs):
+    """
 
-def TypedClassFactory(name, BaseClass=GraphQLObjectType):
-    def __init__(self, **kwargs):
-        self._kwargs = kwargs
-        BaseClass.__init__(self, name[:-len("Class")])
-    new_class = type(name, (BaseClass,),{"__init__": __init__})
+    :param name: Name of the class which will be created
+    :param base_classes: a list or tuple of base classes.
+    :param kwargs: Anything you want to set as attribute.
+    :return: newly created class
+    """
+    if type(base_classes) not in [list, tuple]:
+        raise ValueError('A list/tuple of classes are required.')
+
+    new_class = type(name, base_classes, kwargs)
     return new_class
