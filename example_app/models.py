@@ -6,6 +6,16 @@ from django.db import models
 class Book(models.Model):
     name = models.CharField(max_length=256)
     authors = models.TextField()
+    publication = models.ForeignKey(
+        'example_app.Publication', null=True, on_delete=models.SET_NULL, related_name='published_books')
+
+    class Meta:
+        app_label = 'example_app'
+
+
+class Publication(models.Model):
+    name = models.CharField(max_length=128)
+    address = models.TextField(null=True)
 
     class Meta:
         app_label = 'example_app'
