@@ -1,6 +1,5 @@
 import graphene
 
-from example_app.models import Book
 from pnp_graphql.constants import MODEL_TYPE_ATTR
 from pnp_graphql.type_generator import GraphQlTypeGenerator
 from pnp_graphql.utils.class_factory import class_factory
@@ -64,8 +63,8 @@ def get_query_attributes():
     _models = get_enabled_app_models()
     _attrs = {}
     for _m in _models:
-        _attrs[_make_list_type_name(_m)] = _make_list_query_type(_m)
-        _attrs['resolve_' + _make_list_type_name(_m)] = resolve_list_items(model=Book)
+        _attrs[_make_list_type_name(_m)] = _make_list_query_type(model=_m)
+        _attrs['resolve_' + _make_list_type_name(_m)] = resolve_list_items(model=_m)
     return _attrs
 
 
