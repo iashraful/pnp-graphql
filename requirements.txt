@@ -1,5 +1,5 @@
 aniso8601==6.0.0
-Django==2.2.2
+django>=2.2.3
 graphene==2.1.6
 graphene-django==2.3.2
 graphql-core==2.2
