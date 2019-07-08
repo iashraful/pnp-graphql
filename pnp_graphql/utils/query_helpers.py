@@ -25,10 +25,10 @@ def resolve_list_items(model, **kwargs):
         :return: queryset
         """
         queryset = model.objects.all()
-        _page_size = kwargs.get('first', None)
+        _limit = kwargs.get('limit', None)
         _offset = kwargs.get('offset', 0)
-        if _page_size is not None:
-            queryset = queryset.order_by('id')[_offset:_offset + _page_size]
+        if _limit is not None:
+            queryset = queryset.order_by('id')[_offset:_offset + _limit]
         return queryset
 
     return resolve_list
@@ -93,7 +93,7 @@ def _make_list_query_type(model):
     if _query_type:
         _type = graphene.List(
             _query_type,
-            first=graphene.Int(),
+            limit=graphene.Int(),
             offset=graphene.Int()
         )
         return _type
