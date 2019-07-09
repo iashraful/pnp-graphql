@@ -1,5 +1,7 @@
 import graphene
+from graphene import Mutation
 
+from pnp_graphql.utils.mutation_helpers import prepare_mutation_class_attributes
 from pnp_graphql.utils.query_helpers import get_query_attributes
 from pnp_graphql.utils.class_factory import class_factory
 
@@ -9,9 +11,11 @@ _query_attrs = get_query_attributes()
 _query = class_factory(__class_name='Query', base_classes=(graphene.ObjectType,), **_query_attrs)
 
 
-class Mutation(graphene.ObjectType):
-    success = graphene.Boolean()
+# class Mutation(graphene.ObjectType):
+#     success = graphene.Boolean()
 
+
+_mutation = class_factory(__class_name='Mutation', base_classes=(Mutation,), )
 
 # This schema will be declared to settings
-schema = graphene.Schema(query=_query, mutation=Mutation)
+schema = graphene.Schema(query=_query, mutation=_mutation)
