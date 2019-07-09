@@ -26,8 +26,8 @@ class GraphQlTypeGenerator(object):
         """
         _models = cls.get_models_for_typing(*args, **kwargs)
         for _m in _models:
-            _meta_class = class_factory(name='Meta', model=_m)
+            _meta_class = class_factory(__class_name='Meta', model=_m)
             _class = class_factory(
-                name='{0}Type'.format(_m.__name__), base_classes=(DjangoObjectType,), Meta=_meta_class)
+                __class_name='{0}Type'.format(_m.__name__), base_classes=(DjangoObjectType,), Meta=_meta_class)
             # Setting attribute to model. So that we can access from model
             setattr(_m, MODEL_TYPE_ATTR, _class)

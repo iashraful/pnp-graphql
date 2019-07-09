@@ -6,7 +6,7 @@ from pnp_graphql.utils.class_factory import class_factory
 # Getting query attributes with mapping
 _query_attrs = get_query_attributes()
 # Making query class with proper format
-_query = class_factory(name='Query', base_classes=(graphene.ObjectType,), **_query_attrs)
+_query = class_factory(__class_name='Query', base_classes=(graphene.ObjectType,), **_query_attrs)
 
 
 class Mutation(graphene.ObjectType):
