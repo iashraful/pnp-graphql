@@ -20,6 +20,7 @@ def get_django_graphql_field_mapping():
         models.OneToOneField.__name__: graphene.Int(),
         models.DateTimeField.__name__: graphene.DateTime(),
         models.DateField.__name__: graphene.Date(),
+        models.ManyToManyField.__name__: graphene.List(of_type=graphene.Int),
     }
 
 
@@ -43,3 +44,23 @@ def get_filter_type_mapping():
         models.DateTimeField.__name__: '__gte',
         models.DateField.__name__: '__gte',
     }
+
+
+def get_single_relation_fields():
+    """
+    This method holds the django relational field type mapping
+    :return: a list of fields
+    """
+    return [
+        models.ForeignKey.__name__, models.OneToOneField.__name__
+    ]
+
+
+def get_many_relation_fields():
+    """
+    This method holds the django relational field type mapping
+    :return: a list of fields
+    """
+    return [
+        models.ManyToManyField.__name__,
+    ]

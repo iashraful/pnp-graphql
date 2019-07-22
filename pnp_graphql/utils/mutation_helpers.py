@@ -4,6 +4,7 @@ from graphene import Mutation
 from pnp_graphql.constants import MODEL_INPUT_ATTR, MODEL_TYPE_ATTR
 from pnp_graphql.input_generator import GraphQlInputGenerator
 from pnp_graphql.utils.class_factory import class_factory
+from pnp_graphql.utils.field_mappings import get_single_relation_fields, get_many_relation_fields
 from pnp_graphql.utils.managers import get_model_fields, get_enabled_app_models
 
 
@@ -26,13 +27,24 @@ def prepare_mutate(model, _mutation_class, **kwargs):
         :param input: input data.
         :return: mutate class ref object
         """
-        _fields = get_model_fields(model=model, flat=True)
+        _fields = get_model_fields(model=model, flat=False)
         _data = {}
+        _m2m_data_mapping = []
         for f in _fields:
-            if getattr(input, f, None):
-                _data[f] = getattr(input, f)
+            if getattr(input, f[0], None):
+                if f[1] in get_single_relation_fields():
+                    _data[f[0] + '_id'] = getattr(input, f[0])
+                elif f[1] in get_many_relation_fields():
+                    _m2m_data_mapping.append(
+                        (f[0], getattr(input, f[0]))
+                    )
+                else:
+                    _data[f[0]] = getattr(input, f[0])
         instance = model(**_data)
         instance.save()
+        for d in _m2m_data_mapping:
+            if hasattr(instance, d[0]):
+                getattr(instance, d[0]).add(*d[1])
         _mutation_params = {
             model.__name__.lower(): instance
         }
