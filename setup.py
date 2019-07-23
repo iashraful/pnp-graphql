@@ -15,6 +15,7 @@ setup(
     license='MIT License',
     description='A simple model based GraphQL API configurator written in Python and based of Django',
     long_description=README,
+    long_description_content_type="text/markdown",
     url='https://ashraful.dev',
     author='Ashraful Islam',
     author_email='ashrafulrobin3@gmail.com',
