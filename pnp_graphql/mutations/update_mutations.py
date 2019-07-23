@@ -8,7 +8,7 @@ from pnp_graphql.utils.field_mappings import get_single_relation_fields, get_man
 from pnp_graphql.utils.managers import get_model_fields, get_enabled_app_models
 
 
-def prepare_create_mutate(model, _mutation_class, **kwargs):
+def prepare_update_mutate(model, _mutation_class, **kwargs):
     """
     Preparing main mutation operations here. Basically here we will create the actual object.
     Child method will directly injected to mutation class. According to graphene documention it should be
@@ -20,31 +20,33 @@ def prepare_create_mutate(model, _mutation_class, **kwargs):
     """
 
     @staticmethod
-    def mutate(root, info, input=None):
+    def mutate(root, info, id, input=None):
         """
         Map the field with input fields and create
         :param root:
         :param info:
         :param input: input data.
+        :param id: id for get the object.
         :return: mutate class ref object
         """
+        instance = model.objects.get(pk=id)
         _fields = get_model_fields(model=model, flat=False)
         _data = {}
         _m2m_data_mapping = []
         for f in _fields:
             if getattr(input, f[0], None):
                 if f[1] in get_single_relation_fields():
-                    _data[f[0] + '_id'] = getattr(input, f[0])
+                    setattr(instance, f[0] + '_id', getattr(input, f[0]))
                 elif f[1] in get_many_relation_fields():
                     _m2m_data_mapping.append(
                         (f[0], getattr(input, f[0]))
                     )
                 else:
-                    _data[f[0]] = getattr(input, f[0])
-        instance = model(**_data)
+                    setattr(instance, f[0], getattr(input, f[0]))
         instance.save()
         for d in _m2m_data_mapping:
             if hasattr(instance, d[0]):
+                getattr(instance, d[0]).clear()
                 getattr(instance, d[0]).add(*d[1])
         _mutation_params = {
             model.__name__.lower(): instance
@@ -54,7 +56,7 @@ def prepare_create_mutate(model, _mutation_class, **kwargs):
     return mutate
 
 
-def prepare_create_mutation_class_attributes(model):
+def prepare_update_mutation_class_attributes(model):
     """
     Preparing derived mutation class attributes. For example: Arguments is like meta class. So, I am including it here
     :param model: A django model
@@ -65,15 +67,16 @@ def prepare_create_mutation_class_attributes(model):
     _mutation_class_attrs = {
         'Arguments': class_factory(
             __class_name='Arguments', base_classes=(),
-            input=_input_type(required=True)
+            id=graphene.Int(required=True),
+            input=_input_type(required=True),
         ),
         model.__name__.lower(): graphene.Field(_query_type),
-        'mutate': prepare_create_mutate(model=model, _mutation_class=Mutation)
+        'mutate': prepare_update_mutate(model=model, _mutation_class=Mutation)
     }
     return _mutation_class_attrs
 
 
-def prepare_create_mutation_classes():
+def prepare_update_mutation_classes():
     """
     Here it's preparing actual mutation classes for each model.
     :return: A tuple of all mutation classes
@@ -81,10 +84,10 @@ def prepare_create_mutation_classes():
     _models = get_enabled_app_models()
     _classes = []
     for m in _models:
-        _attrs = prepare_create_mutation_class_attributes(model=m)
+        _attrs = prepare_update_mutation_class_attributes(model=m)
         # Creating a fake base class for making mutate properly.
-        _base_class = class_factory(__class_name='Create' + m.__name__, base_classes=(Mutation,), **_attrs)
-        _attrs.update(mutate=prepare_create_mutate(model=m, _mutation_class=_base_class))
-        _class = class_factory(__class_name='Create' + m.__name__, base_classes=(_base_class,), **_attrs)
+        _base_class = class_factory(__class_name='Update' + m.__name__, base_classes=(Mutation,), **_attrs)
+        _attrs.update(mutate=prepare_update_mutate(model=m, _mutation_class=_base_class))
+        _class = class_factory(__class_name='Update' + m.__name__, base_classes=(_base_class,), **_attrs)
         _classes.append(_class)
     return tuple(_classes)
