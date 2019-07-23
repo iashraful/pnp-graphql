@@ -1,7 +1,7 @@
 import graphene
 
 from pnp_graphql.utils.class_factory import class_factory
-from pnp_graphql.utils.mutation_helpers import prepare_mutation_classes
+from pnp_graphql.mutations.create_mutations import prepare_mutation_classes
 from pnp_graphql.utils.query_helpers import get_query_attributes
 
 # Getting query attributes with mapping
