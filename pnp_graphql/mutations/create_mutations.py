@@ -8,7 +8,7 @@ from pnp_graphql.utils.field_mappings import get_single_relation_fields, get_man
 from pnp_graphql.utils.managers import get_model_fields, get_enabled_app_models
 
 
-def prepare_mutate(model, _mutation_class, **kwargs):
+def prepare_create_mutate(model, _mutation_class, **kwargs):
     """
     Preparing main mutation operations here. Basically here we will create the actual object.
     Child method will directly injected to mutation class. According to graphene documention it should be
@@ -18,6 +18,7 @@ def prepare_mutate(model, _mutation_class, **kwargs):
     :param kwargs:
     :return: child method of muatation
     """
+
     @staticmethod
     def mutate(root, info, input=None):
         """
@@ -53,7 +54,7 @@ def prepare_mutate(model, _mutation_class, **kwargs):
     return mutate
 
 
-def prepare_mutation_class_attributes(model):
+def prepare_create_mutation_class_attributes(model):
     """
     Preparing derived mutation class attributes. For example: Arguments is like meta class. So, I am including it here
     :param model: A django model
@@ -64,12 +65,12 @@ def prepare_mutation_class_attributes(model):
     _mutation_class_attrs = {
         'Arguments': class_factory(__class_name='Arguments', base_classes=(), input=_input_type()),
         model.__name__.lower(): graphene.Field(_query_type),
-        'mutate': prepare_mutate(model=model, _mutation_class=Mutation)
+        'mutate': prepare_create_mutate(model=model, _mutation_class=Mutation)
     }
     return _mutation_class_attrs
 
 
-def prepare_mutation_classes():
+def prepare_create_mutation_classes():
     """
     Here it's preparing actual mutation classes for each model.
     :return: A tuple of all mutation classes
@@ -78,10 +79,10 @@ def prepare_mutation_classes():
     GraphQlInputGenerator.generate_input_types()
     _classes = []
     for m in _models:
-        _attrs = prepare_mutation_class_attributes(model=m)
+        _attrs = prepare_create_mutation_class_attributes(model=m)
         # Creating a fake base class for making mutate properly.
         _base_class = class_factory(__class_name='Create' + m.__name__, base_classes=(Mutation,), **_attrs)
-        _attrs.update(mutate=prepare_mutate(model=m, _mutation_class=_base_class))
+        _attrs.update(mutate=prepare_create_mutate(model=m, _mutation_class=_base_class))
         _class = class_factory(__class_name='Create' + m.__name__, base_classes=(_base_class,), **_attrs)
         _classes.append(_class)
     return tuple(_classes)

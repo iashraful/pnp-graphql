@@ -1,7 +1,7 @@
 import graphene
 
 from pnp_graphql.utils.class_factory import class_factory
-from pnp_graphql.mutations.create_mutations import prepare_mutation_classes
+from pnp_graphql.mutations.create_mutations import prepare_create_mutation_classes
 from pnp_graphql.utils.query_helpers import get_query_attributes
 
 # Getting query attributes with mapping
@@ -14,10 +14,14 @@ _query = class_factory(__class_name='Query', base_classes=(graphene.ObjectType,)
 #     success = graphene.Boolean()
 
 
-_mutation_base_classes = prepare_mutation_classes()
+_create_mutation_base_classes = prepare_create_mutation_classes()
 _mutation_attrs = {}
-for _c in _mutation_base_classes:
+for _c in _create_mutation_base_classes:
     _mutation_attrs[_c.__name__.lower()] = getattr(_c, 'Field')()
+
+# for _c in _create_mutation_base_classes:
+#     _mutation_attrs[_c.__name__.lower()] = getattr(_c, 'Field')()
+
 _mutation = class_factory(
     __class_name='Mutation', 
     base_classes=(graphene.ObjectType,),
