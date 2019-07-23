@@ -2,7 +2,6 @@ import graphene
 from graphene import Mutation
 
 from pnp_graphql.constants import MODEL_INPUT_ATTR, MODEL_TYPE_ATTR
-from pnp_graphql.input_generator import GraphQlInputGenerator
 from pnp_graphql.utils.class_factory import class_factory
 from pnp_graphql.utils.field_mappings import get_single_relation_fields, get_many_relation_fields
 from pnp_graphql.utils.managers import get_model_fields, get_enabled_app_models
