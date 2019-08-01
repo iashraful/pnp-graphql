@@ -3,7 +3,7 @@ from graphene import Mutation
 
 from pnp_graphql.constants import MODEL_INPUT_ATTR, MODEL_TYPE_ATTR
 from pnp_graphql.utils.class_factory import class_factory
-from pnp_graphql.utils.managers import get_enabled_app_models
+from pnp_graphql.utils.managers import get_enabled_app_models, get_auth_class
 
 
 def prepare_delete_mutate(model, _mutation_class, **kwargs):
@@ -26,6 +26,8 @@ def prepare_delete_mutate(model, _mutation_class, **kwargs):
         :param id: id for get the object.
         :return: mutate class ref object
         """
+        auth_class = get_auth_class()()
+        auth_class.authenticate(info.context)
         instance = model.objects.get(pk=id)
         instance.delete()
         _mutation_params = {

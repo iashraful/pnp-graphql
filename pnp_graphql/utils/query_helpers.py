@@ -4,7 +4,7 @@ from django.db.models import Q
 from pnp_graphql.constants import MODEL_TYPE_ATTR
 from pnp_graphql.type_generator import GraphQlTypeGenerator
 from pnp_graphql.utils.field_mappings import get_django_graphql_field_mapping, get_filter_type_mapping
-from pnp_graphql.utils.managers import get_enabled_app_models, get_model_fields
+from pnp_graphql.utils.managers import get_enabled_app_models, get_model_fields, get_auth_class
 
 
 def resolve_list_items(model, **kwargs):
@@ -27,6 +27,8 @@ def resolve_list_items(model, **kwargs):
         :param kwargs: Expecting first and offset will be there. But anything could be.
         :return: queryset
         """
+        auth_class = get_auth_class()()
+        auth_class.authenticate(info.context)
         queryset = model.objects.all()  # All data
         # Search fields queryset
         _filter_params = _prepare_search_filters(model=model, **kwargs)

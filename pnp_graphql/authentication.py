@@ -43,7 +43,8 @@ class TokenAuthentication(object):
         auth = get_authorization_header(request).split()
 
         if not auth or auth[0].lower() != self.keyword.lower().encode():
-            return None
+            msg = _('"Authorization" header is required for Token authentication.')
+            raise exceptions.AuthenticationFailed(msg)
 
         if len(auth) == 1:
             msg = _('Invalid token header. No credentials provided.')

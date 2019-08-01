@@ -16,7 +16,7 @@ class AuthToken(models.Model):
 
     def save(self, **kwargs):
         if not self.token:
-            self.toke = self.generate_token()
+            self.token = self.generate_token()
         super(AuthToken, self).save(**kwargs)
 
     class Meta:

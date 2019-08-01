@@ -1,4 +1,4 @@
-import importlib
+from pydoc import locate
 
 from django.apps import apps
 from django.conf import settings
@@ -49,5 +49,6 @@ def get_model_fields(model, flat=False):
 
 
 def get_auth_class():
-    _class = getattr(settings, SETTINGS_AUTH_CLASS, None)
-    return importlib.import_module(_class)
+    settings_config = getattr(settings, SETTINGS_CONFIG, None)
+    _class = settings_config.get(SETTINGS_AUTH_CLASS)
+    return locate(_class)
