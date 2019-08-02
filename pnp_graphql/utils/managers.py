@@ -50,6 +50,9 @@ def get_model_fields(model, flat=False):
 
 def get_auth_class():
     settings_config = get_settings_for_app()
-    _class = settings_config.get(SETTINGS_AUTH_CLASS)
-    if _class:
-        return locate(_class)
+    _class_str = settings_config.get(SETTINGS_AUTH_CLASS)
+    if _class_str:
+        _class = locate(_class_str)
+        if _class is None:
+            raise ModuleNotFoundError('{0} is not a valid authentication class.'.format(_class_str))
+        return _class
