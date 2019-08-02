@@ -1,11 +1,12 @@
-## Plug & Play GraphQL (pnp-graphql) v0.0.1-beta
+## Plug & Play GraphQL (pnp-graphql)-- [Change Log](https://github.com/iashraful/pnp-graphql/blob/master/CHANGELOG.md)
 > A library for making GraphQL API with Python/Django. This is like a flash drive, 
 just how you plug into computer and transfer files.
 
 ### Quick Start
-> Ducumentation is coming soon...
+> Documentation is coming soon...
 
 * Install from pip `pip install pnp-graphql`
+* Add `pnp_graphql` into installed apps on settings.py
 * Add PnP GraphQL config on settings.
 ```python
 GRAPHENE = {
@@ -13,7 +14,9 @@ GRAPHENE = {
 }
 
 PNP_GRAPHQL = {
-    'ENABLED_APPS': ['example_app']
+    'ENABLED_APPS': ['example_app'],
+    # If you want to use Token Authentication. Otherwise it's optional
+    'AUTHENTICATION_CLASS': 'pnp_graphql.authentication.TokenAuthentication'
 }
 ```
 * Set `DEBUG = False` for production use.
@@ -28,9 +31,9 @@ PNP_GRAPHQL = {
 * Mutation (Create, Update, Delete)
 * Pagination
 * API filtering for Number, String, Date, DateTime
+* Authentication
 
 #### What are the plans?
-* Authentication
 * Proper error handling
 * Field validation
 * Caching
