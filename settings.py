@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pnp_graphql',
     'example_app'
 ]
 
@@ -121,5 +122,6 @@ GRAPHENE = {
 }
 
 PNP_GRAPHQL = {
-    'ENABLED_APPS': ['example_app']
+    'ENABLED_APPS': ['example_app'],
+    'AUTHENTICATION_CLASS': 'pnp_graphql.authentication.TokenAuthentication'
 }
