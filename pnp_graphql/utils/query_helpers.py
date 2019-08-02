@@ -27,8 +27,9 @@ def resolve_list_items(model, **kwargs):
         :param kwargs: Expecting first and offset will be there. But anything could be.
         :return: queryset
         """
-        auth_class = get_auth_class()()
-        auth_class.authenticate(info.context)
+        auth_class = get_auth_class()
+        if auth_class:
+            auth_class().authenticate(info.context)
         queryset = model.objects.all()  # All data
         # Search fields queryset
         _filter_params = _prepare_search_filters(model=model, **kwargs)

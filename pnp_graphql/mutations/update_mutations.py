@@ -27,8 +27,9 @@ def prepare_update_mutate(model, _mutation_class, **kwargs):
         :param id: id for get the object.
         :return: mutate class ref object
         """
-        auth_class = get_auth_class()()
-        auth_class.authenticate(info.context)
+        auth_class = get_auth_class()
+        if auth_class:
+            auth_class().authenticate(info.context)
         instance = model.objects.get(pk=id)
         _fields = get_model_fields(model=model, flat=False)
         _data = {}

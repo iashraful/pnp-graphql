@@ -17,6 +17,7 @@ def get_authorization_header(request):
 
 class TokenAuthentication(object):
     """
+    This class(TokenAuthentication) is inspired from Django REST Framework Authentication class
     Simple token based authentication.
 
     Clients should authenticate by passing the token key in the "Authorization"

@@ -27,8 +27,9 @@ def prepare_create_mutate(model, _mutation_class, **kwargs):
         :param input: input data.
         :return: mutate class ref object
         """
-        auth_class = get_auth_class()()
-        auth_class.authenticate(info.context)
+        auth_class = get_auth_class()
+        if auth_class:
+            auth_class().authenticate(info.context)
         _fields = get_model_fields(model=model, flat=False)
         _data = {}
         _m2m_data_mapping = []

@@ -49,6 +49,7 @@ def get_model_fields(model, flat=False):
 
 
 def get_auth_class():
-    settings_config = getattr(settings, SETTINGS_CONFIG, None)
+    settings_config = get_settings_for_app()
     _class = settings_config.get(SETTINGS_AUTH_CLASS)
-    return locate(_class)
+    if _class:
+        return locate(_class)
