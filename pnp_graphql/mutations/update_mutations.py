@@ -4,7 +4,7 @@ from graphene import Mutation
 from pnp_graphql.constants import MODEL_INPUT_ATTR, MODEL_TYPE_ATTR
 from pnp_graphql.utils.class_factory import class_factory
 from pnp_graphql.utils.field_mappings import get_single_relation_fields, get_many_relation_fields
-from pnp_graphql.utils.managers import get_model_fields, get_enabled_app_models
+from pnp_graphql.utils.managers import get_model_fields, get_enabled_app_models, get_auth_class
 
 
 def prepare_update_mutate(model, _mutation_class, **kwargs):
@@ -17,7 +17,6 @@ def prepare_update_mutate(model, _mutation_class, **kwargs):
     :param kwargs:
     :return: child method of muatation
     """
-
     @staticmethod
     def mutate(root, info, id, input=None):
         """
@@ -28,6 +27,9 @@ def prepare_update_mutate(model, _mutation_class, **kwargs):
         :param id: id for get the object.
         :return: mutate class ref object
         """
+        auth_class = get_auth_class()
+        if auth_class:
+            auth_class().authenticate(info.context)
         instance = model.objects.get(pk=id)
         _fields = get_model_fields(model=model, flat=False)
         _data = {}

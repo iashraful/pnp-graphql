@@ -1,7 +1,9 @@
+from pydoc import locate
+
 from django.apps import apps
 from django.conf import settings
 
-from pnp_graphql.constants import SETTINGS_ENABLED_APPS, SETTINGS_CONFIG
+from pnp_graphql.constants import SETTINGS_ENABLED_APPS, SETTINGS_CONFIG, SETTINGS_AUTH_CLASS
 
 
 def get_settings_for_app():
@@ -44,3 +46,13 @@ def get_model_fields(model, flat=False):
     if flat:
         return [f.name for f in model._meta.get_fields()]
     return [(f.name, f.get_internal_type()) for f in model._meta.get_fields()]
+
+
+def get_auth_class():
+    settings_config = get_settings_for_app()
+    _class_str = settings_config.get(SETTINGS_AUTH_CLASS)
+    if _class_str:
+        _class = locate(_class_str)
+        if _class is None:
+            raise ModuleNotFoundError('{0} is not a valid authentication class.'.format(_class_str))
+        return _class
