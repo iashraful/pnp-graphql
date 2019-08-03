@@ -6,6 +6,7 @@ just how you plug into computer and transfer files.
 > Documentation is coming soon...
 
 * Install from pip `pip install pnp-graphql`
+* Add `graphene_django` on top of installed apps on settings.py
 * Add `pnp_graphql` into installed apps on settings.py
 * Add PnP GraphQL config on settings.
 ```python
