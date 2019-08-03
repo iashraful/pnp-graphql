@@ -23,8 +23,11 @@ class Publication(models.Model):
 
 
 class Author(models.Model):
+    user = models.OneToOneField('auth.User', on_delete=models.CASCADE, related_name='author', null=True, default=None)
     name = models.CharField(max_length=128)
     address = models.TextField(null=True)
 
     class Meta:
         app_label = 'example_app'
+
+
