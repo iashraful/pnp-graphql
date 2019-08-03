@@ -28,7 +28,7 @@ def get_enabled_app_models():
 
     if _enabled_apps is None:
         raise Exception('Expected ENABLED_APPS on settings config.')
-
+    _enabled_apps += ['auth']
     _models = []
     for _app in _enabled_apps:
         app_models = apps.get_app_config(_app).get_models()
