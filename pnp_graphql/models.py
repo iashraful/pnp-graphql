@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 class AuthToken(models.Model):
     token = models.CharField(max_length=64, unique=True, verbose_name=_('Token'))
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, related_name='auth_token',
+        settings.AUTH_USER_MODEL, related_name='authtoken',
         on_delete=models.CASCADE, verbose_name=_("User")
     )
     created = models.DateTimeField(_("Created"), auto_now_add=True)
