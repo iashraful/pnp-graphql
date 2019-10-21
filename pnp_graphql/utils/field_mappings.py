@@ -64,3 +64,11 @@ def get_many_relation_fields():
     return [
         models.ManyToManyField.__name__,
     ]
+
+
+def get_ignored_fields():
+    """
+    This method will return a list of field names those are ignored for a reason
+    :return: a list
+    """
+    return ['type']

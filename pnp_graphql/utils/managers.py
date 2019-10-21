@@ -4,6 +4,7 @@ from django.apps import apps
 from django.conf import settings
 
 from pnp_graphql.constants import SETTINGS_ENABLED_APPS, SETTINGS_CONFIG, SETTINGS_AUTH_CLASS
+from pnp_graphql.utils.field_mappings import get_ignored_fields
 
 
 def get_settings_for_app():
@@ -43,9 +44,10 @@ def get_model_fields(model, flat=False):
     :param flat: boolean type value
     :return: list of model field if not flat else list of tuple of fields
     """
+    _ignored_fields = get_ignored_fields()
     if flat:
-        return [f.name for f in model._meta.get_fields()]
-    return [(f.name, f.get_internal_type()) for f in model._meta.get_fields()]
+        return [f.name for f in model._meta.get_fields() if f.name not in _ignored_fields]
+    return [(f.name, f.get_internal_type()) for f in model._meta.get_fields() if f.name not in _ignored_fields]
 
 
 def get_auth_class():
