@@ -123,5 +123,5 @@ GRAPHENE = {
 
 PNP_GRAPHQL = {
     'ENABLED_APPS': ['example_app'],
-    'AUTHENTICATION_CLASS': 'pnp_graphql.authentication.TokenAuthentication'
+    # 'AUTHENTICATION_CLASS': 'pnp_graphql.authentication.TokenAuthentication'
 }
