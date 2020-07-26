@@ -22,11 +22,20 @@ PNP_GRAPHQL = {
     'AUTHENTICATION_CLASS': 'pnp_graphql.authentication.TokenAuthentication'
 }
 ```
+* Add the following code on `urls.py`
+```python
+from pnp_graphql.urls import urlpatterns as up
+
+urlpatterns = [
+    # ... ... ... 
+]
+urlpatterns += up
+```
 * Set `DEBUG = False` for production use.
 
 **That's it :)**  
-**Now visit:** *http://your-ip:port/api/graphql-explorer/* for explore GraphQL built-in UI explorer for query.  
-**Production ready API :** *http://your-ip:port/api/graphql/*
+**Now visit:** `http://your-ip:port/api/graphql-explorer/` for explore GraphQL built-in UI explorer for query.  
+**Production ready API :** `http://your-ip:port/api/graphql/`
 
 
 #### What's working?
@@ -41,3 +50,5 @@ PNP_GRAPHQL = {
 * Field validation
 * Caching
 * many more ... ... ...
+
+### Waiting for your contribution :smile:

@@ -9,6 +9,7 @@ class Book(models.Model):
     publication = models.ForeignKey(
         'example_app.Publication', null=True, on_delete=models.SET_NULL, related_name='published_books')
     published_date = models.DateTimeField(null=True, auto_now_add=True, auto_now=False)
+    type = models.CharField(max_length=64, null=True, default=None)
 
     class Meta:
         app_label = 'example_app'

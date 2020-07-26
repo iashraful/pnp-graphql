@@ -4,8 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
 urlpatterns = [
-    path('api/graphql/', csrf_exempt(GraphQLView.as_view(graphiql=False))),
+    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=False))),
 ]
 
 if settings.DEBUG:
-    urlpatterns += [path('api/graphql-explorer/', csrf_exempt(GraphQLView.as_view(graphiql=True)))]
+    urlpatterns += [path('graphql-explorer/', csrf_exempt(GraphQLView.as_view(graphiql=True)))]

@@ -7,3 +7,4 @@ db.*
 
 *.egg*
 dist
+venv
