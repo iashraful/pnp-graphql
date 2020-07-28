@@ -154,7 +154,7 @@ def _prepare_search_filters(model, **query_params):
     _filter_mapping = get_filter_type_mapping()
     _queryset_dict = {}
     for f in _fields:
-        if f[0] in query_params.keys() and _filter_mapping.get(f[1], None) is not None:
+        if f[0] in query_params.keys() and query_params.get(f[0]) and _filter_mapping.get(f[1], None) is not None:
             _queryset_dict['{0}{1}'.format(f[0], _filter_mapping.get(f[1]))] = query_params[f[0]]
     return _queryset_dict
 
