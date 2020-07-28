@@ -37,6 +37,8 @@ def resolve_list_items(model, **kwargs):
         # Pagination
         _limit = kwargs.get('limit', None)
         _offset = kwargs.get('offset', 0)
+        if _offset is None:
+            _offset = 0
         if _limit is not None:
             queryset = queryset.order_by('id')[_offset:_offset + _limit]
         return queryset
