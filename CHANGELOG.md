@@ -1,3 +1,7 @@
+## 0.1.5
+**Fixed**
+* Fixed six package error. Downgrade django version
+
 ## 0.1.4
 **Added**
 * Django and Python updated version on setup.py
