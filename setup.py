@@ -36,7 +36,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        'django>=2.0',
+        'django>=2.0,<3.0',
         'graphene-django>=2.1',
     ]
 )
