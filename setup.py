@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='pnp-graphql',
-    version='3.0.0a1',
+    version='3.0.0b1',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
