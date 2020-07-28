@@ -9,11 +9,11 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='pnp-graphql',
-    version='0.1.4',
+    version='3.0.0b1',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
-    description='A simple model based GraphQL API configurator written in Python and based of Django',
+    description='A simple model based GraphQL API maker written in Python and based of Django',
     long_description=README,
     long_description_content_type="text/markdown",
     url='https://ashraful.dev',
@@ -36,7 +36,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        'django>=2.0',
-        'graphene-django>=2.1',
+        'django>=3.0',
+        'graphene-django>=v3.0.0b4',
     ]
 )
